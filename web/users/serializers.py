@@ -13,3 +13,19 @@ class UserOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseUser
         fields = ("id", "email", "is_admin")
+
+
+class UserMeOutputSeriazlier(serializers.ModelSerializer):
+    class Meta:
+        model = BaseUser
+        fields = (
+            "id",
+            "email",
+            "is_active",
+            "is_admin",
+            "is_superuser",
+            "first_name",
+            "last_name",
+            "middle_name",
+            "phone_number",
+        )

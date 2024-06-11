@@ -1,8 +1,13 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.selectors import user_list
-from users.serializers import FilterSerializer, UserOutputSerializer
+from users.serializers import (
+    FilterSerializer,
+    UserMeOutputSeriazlier,
+    UserOutputSerializer,
+)
 
 
 class UserListApi(APIView):
@@ -15,3 +20,12 @@ class UserListApi(APIView):
         data = UserOutputSerializer(users, many=True).data
 
         return Response(data)
+
+
+class UserMeApi(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        serializer = UserMeOutputSeriazlier(request.user)
+
+        return Response(serializer.data)
