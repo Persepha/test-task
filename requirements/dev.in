@@ -3,6 +3,8 @@
 django-debug-toolbar
 coverage
 
+drf-spectacular
+
 black
 isort
 flake8

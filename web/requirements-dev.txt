@@ -9,7 +9,10 @@ asgiref==3.8.1
     #   django
     #   django-stubs
 attrs==23.2.0
-    # via flake8-bugbear
+    # via
+    #   flake8-bugbear
+    #   jsonschema
+    #   referencing
 black==24.4.2
     # via -r requirements/dev.in
 certifi==2024.6.2
@@ -31,6 +34,7 @@ django==5.0
     #   django-stubs-ext
     #   djangorestframework
     #   djangorestframework-simplejwt
+    #   drf-spectacular
 django-debug-toolbar==4.4.2
     # via -r requirements/dev.in
 django-dotenv==1.4.2
@@ -47,9 +51,12 @@ djangorestframework==3.15.0
     # via
     #   -r requirements\base.in
     #   djangorestframework-simplejwt
+    #   drf-spectacular
 djangorestframework-simplejwt==5.3.1
     # via -r requirements\base.in
 djangorestframework-stubs==3.15.0
+    # via -r requirements/dev.in
+drf-spectacular==0.27.2
     # via -r requirements/dev.in
 flake8==7.0.0
     # via
@@ -68,8 +75,14 @@ flake8-variables-names==0.0.6
     # via -r requirements/dev.in
 idna==3.7
     # via requests
+inflection==0.5.1
+    # via drf-spectacular
 isort==5.13.2
     # via -r requirements/dev.in
+jsonschema==4.22.0
+    # via drf-spectacular
+jsonschema-specifications==2023.12.1
+    # via jsonschema
 mccabe==0.7.0
     # via flake8
 mypy==1.10.0
@@ -94,8 +107,18 @@ pyflakes==3.2.0
     # via flake8
 pyjwt==2.8.0
     # via djangorestframework-simplejwt
+pyyaml==6.0.1
+    # via drf-spectacular
+referencing==0.35.1
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.32.3
     # via djangorestframework-stubs
+rpds-py==0.18.1
+    # via
+    #   jsonschema
+    #   referencing
 sqlparse==0.5.0
     # via
     #   django
@@ -121,6 +144,8 @@ typing-extensions==4.12.2
     #   mypy
 tzdata==2024.1
     # via django
+uritemplate==4.1.1
+    # via drf-spectacular
 urllib3==2.2.1
     # via
     #   requests
