@@ -8,7 +8,17 @@ from common.models import BaseModel
 
 
 class BaseUserManager(BUM):
-    def create_user(self, email, is_active=True, is_admin=False, password=None):
+    def create_user(
+        self,
+        email,
+        is_active=True,
+        is_admin=False,
+        password=None,
+        first_name="",
+        last_name="",
+        middle_name="",
+        phone_number="",
+    ):
         if not email:
             raise ValueError("Users must have an email address")
 
@@ -16,6 +26,10 @@ class BaseUserManager(BUM):
             email=self.normalize_email(email.lower()),
             is_active=is_active,
             is_admin=is_admin,
+            first_name=first_name,
+            last_name=last_name,
+            middle_name=middle_name,
+            phone_number=phone_number,
         )
 
         if password is not None:
