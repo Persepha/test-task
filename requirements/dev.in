@@ -1,0 +1,17 @@
+-r base.in
+
+django-debug-toolbar
+coverage
+
+black
+isort
+flake8
+flake8-builtins
+flake8-bugbear
+pep8-naming
+flake8-commas
+flake8-variables-names
+
+mypy
+django-stubs
+djangorestframework-stubs
