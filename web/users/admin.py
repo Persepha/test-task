@@ -29,6 +29,7 @@ class UserEmployeeAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "email",
+                    "password",
                     "photo_url",
                     "first_name",
                     "last_name",
@@ -78,6 +79,7 @@ class UserEmployeeAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "email",
+                    "password",
                     "first_name",
                     "last_name",
                     "middle_name",

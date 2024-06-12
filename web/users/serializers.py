@@ -12,7 +12,10 @@ class FilterSerializer(serializers.Serializer):
 class UserOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseUser
-        fields = ("id", "email", "is_admin")
+        fields = (
+            "id",
+            "email",
+        )
 
 
 class UserMeOutputSeriazlier(serializers.ModelSerializer):
