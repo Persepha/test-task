@@ -6,7 +6,7 @@ from users.models import Customer, Employee
 
 def task_create(
     *,
-    status: str = "P",
+    status: str = Task.PENDING,
     description: str = "",
     customer: Customer,
     employee: Employee | None = None,
@@ -29,6 +29,7 @@ def task_create(
 
 def task_set_employee(*, employee: Employee, task: Task) -> Task:
     task.employee = employee
+    task.status = Task.IN_PROCESS
 
     task.full_clean()
     task.save()

@@ -31,7 +31,6 @@ class TaskListApi(APIView):
         return Response(data)
 
 
-@extend_schema(request=int)
 class TaskDetailApi(APIView):
     permission_classes = (IsUserHasAccessToViewTask,)
 
