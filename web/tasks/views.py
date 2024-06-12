@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tasks.models import Task
-from tasks.permissions import IsUserHasAccessToViewTask, IsUserHasPermissionToAssignTask
-from tasks.selectors import task_list
+from tasks.permissions import IsUserHasAccessToViewTask, IsUserHasPermissionToAssignTask, IsCustomer
+from tasks.selectors import task_list, customer_task_list
 from tasks.serializers import (
     FilterSerializer,
     TaskOutputSerializer,
@@ -25,6 +25,24 @@ class TaskListApi(APIView):
         filters_serializer.is_valid(raise_exception=True)
 
         tasks = task_list(filters=filters_serializer.validated_data)
+
+        data = TaskOutputSerializer(tasks, many=True).data
+
+        return Response(data)
+
+
+class TaskListForCustomerApi(APIView):
+    permission_classes = (IsCustomer,)
+
+    def get(self, request):
+        filters_serializer = FilterSerializer(data=request.query_params)
+        filters_serializer.is_valid(raise_exception=True)
+
+        user = self.request.user
+
+        tasks = customer_task_list(
+            filters=filters_serializer.validated_data, customer=user.customer
+        )
 
         data = TaskOutputSerializer(tasks, many=True).data
 

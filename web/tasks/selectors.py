@@ -2,6 +2,7 @@ from django.db.models.query import QuerySet
 
 from tasks.filters import BaseTaskFilter
 from tasks.models import Task
+from users.models import Customer
 
 
 def task_list(*, filters=None) -> QuerySet[Task]:
@@ -12,9 +13,9 @@ def task_list(*, filters=None) -> QuerySet[Task]:
     return BaseTaskFilter(filters, qs).qs
 
 
-def task_list(*, filters=None) -> QuerySet[Task]:
+def customer_task_list(*, customer: Customer, filters=None) -> QuerySet[Task]:
     filters = filters or {}
 
-    qs = Task.objects.all()
+    qs = Task.objects.filter(customer=customer)
 
     return BaseTaskFilter(filters, qs).qs

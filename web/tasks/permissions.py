@@ -49,6 +49,15 @@ class IsUserHasPermissionToAssignTask(permissions.BasePermission):
         return False
 
 
+class IsCustomer(permissions.BasePermission):
+    """
+    Check If authorized user is customer
+    """
+
+    def has_permission(self, request, view):
+        return bool(request.user and hasattr(request.user, "customer"))
+
+
 class IsSuperUser(permissions.BasePermission):
     """
     Check If superusers.
