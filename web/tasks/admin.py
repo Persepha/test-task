@@ -8,8 +8,8 @@ from tasks.services import task_create
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "customer",
+        "id",
         "employee",
         "status",
         "closing_date",

@@ -8,8 +8,8 @@ from users.services import user_create, user_create_employee, user_create_custom
 @admin.register(Employee)
 class UserEmployeeAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "email",
+        "id",
         "is_admin",
         "is_superuser",
         "is_active",
@@ -62,8 +62,8 @@ class UserEmployeeAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class UserEmployeeAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "email",
+        "id",
         "is_active",
         "created_at",
         "updated_at",
