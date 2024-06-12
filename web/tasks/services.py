@@ -25,3 +25,12 @@ def task_create(
     task.save()
 
     return task
+
+
+def task_set_employee(*, employee: Employee, task: Task) -> Task:
+    task.employee = employee
+
+    task.full_clean()
+    task.save()
+
+    return task

@@ -11,6 +11,8 @@ from users.serializers import (
 
 
 class UserListApi(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         filters_serializer = FilterSerializer(data=request.query_params)
         filters_serializer.is_valid(raise_exception=True)

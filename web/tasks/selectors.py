@@ -10,3 +10,11 @@ def task_list(*, filters=None) -> QuerySet[Task]:
     qs = Task.objects.all()
 
     return BaseTaskFilter(filters, qs).qs
+
+
+def task_list(*, filters=None) -> QuerySet[Task]:
+    filters = filters or {}
+
+    qs = Task.objects.all()
+
+    return BaseTaskFilter(filters, qs).qs
