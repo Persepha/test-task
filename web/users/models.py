@@ -55,6 +55,64 @@ class BaseUserManager(BUM):
 
         return user
 
+    def create_customer(
+        self,
+        email,
+        password=None,
+        first_name="",
+        last_name="",
+        middle_name="",
+        phone_number="",
+    ):
+        user: Customer = self.create_user(
+            email=email,
+            is_active=True,
+            is_admin=False,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            middle_name=middle_name,
+            phone_number=phone_number,
+        )
+
+        return user
+
+    def create_employee(
+        self,
+        email,
+        photo_url,
+        password=None,
+        is_active=True,
+        is_admin=True,
+        first_name="",
+        last_name="",
+        middle_name="",
+        phone_number="",
+    ):
+        if not email:
+            raise ValueError("Users must have an email address")
+
+        user = self.model(
+            email=self.normalize_email(email.lower()),
+            is_active=is_active,
+            is_admin=is_admin,
+            first_name=first_name,
+            last_name=last_name,
+            middle_name=middle_name,
+            phone_number=phone_number,
+            photo_url=photo_url,
+        )
+
+        if password is not None:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
+
+        user.full_clean()
+        user.save(using=self._db)
+
+        return user
+
 
 class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -86,3 +144,17 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+class Employee(BaseUser):
+    user = models.OneToOneField(
+        BaseUser, on_delete=models.CASCADE, parent_link=True, related_name="employee"
+    )
+
+    photo_url = models.URLField()
+
+
+class Customer(BaseUser):
+    user = models.OneToOneField(
+        BaseUser, on_delete=models.CASCADE, parent_link=True, related_name="customer"
+    )
