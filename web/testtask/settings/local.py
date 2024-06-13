@@ -12,6 +12,11 @@ MIDDLEWARE += [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
+DEBUG_TOOLBAR_CONFIG = {
+    # IS_RUNNING_TESTS must be False even though we're running tests because we're running the toolbar's own tests.
+    "IS_RUNNING_TESTS": False,
+}
+
 DB_DATABASE = os.environ.get("POSTGRES_DB")
 DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 DB_USERNAME = os.environ.get("POSTGRES_USER")
