@@ -19,8 +19,9 @@ from tasks.serializers import (
     TaskOutputSerializer,
     TaskInputSerializer,
     TaskUpdateInputSerializer,
+    TaskCloseInputSerializer,
 )
-from tasks.services import task_create, task_set_employee, task_update
+from tasks.services import task_create, task_set_employee, task_update, task_close
 from users.models import Customer
 
 
@@ -112,5 +113,21 @@ class TaskUpdateApi(APIView):
         self.check_object_permissions(request, task)
 
         updated_task, _ = task_update(task=task, data=serializer.validated_data)
+
+        return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(request=TaskCloseInputSerializer)
+class TaskCloseApi(APIView):
+    permission_classes = (IsUserHasPermissionToChangeTask | IsSuperUser,)
+
+    def post(self, request, id):
+        serializer = TaskCloseInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        task = get_object_or_404(Task, id=id)
+        self.check_object_permissions(request, task)
+
+        updated_task = task_close(task=task, **serializer.validated_data)
 
         return Response(status=status.HTTP_200_OK)

@@ -7,6 +7,7 @@ from tasks.views import (
     TaskSetEmployee,
     TaskListForCustomerApi,
     TaskUpdateApi,
+    TaskCloseApi,
 )
 
 urlpatterns = [
@@ -19,5 +20,6 @@ urlpatterns = [
     ),
     path("<int:id>/", TaskDetailApi.as_view(), name="task-detail"),
     path("<int:id>/update/", TaskUpdateApi.as_view(), name="task-update"),
+    path("<int:id>/close/", TaskCloseApi.as_view(), name="task-close"),
     path("<int:id>/setemployee/", TaskSetEmployee.as_view(), name="task-setemployee"),
 ]

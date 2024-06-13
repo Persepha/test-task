@@ -3,8 +3,9 @@ from typing import Tuple
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.utils import timezone
 
-from common.services import model_update
+from common.services import model_update, is_string_blank
 from tasks.models import Task
 from users.models import Customer, Employee
 
@@ -56,3 +57,17 @@ def task_update(*, task: Task, data) -> Tuple[Task, bool]:
     )
 
     return task, has_updated
+
+
+def task_close(*, task: Task, report: str = "") -> Task:
+    if is_string_blank(task.report):
+        raise ValidationError("Cannot close a task without report")
+
+    task.report = report
+    task.closing_date = timezone.now()
+    task.status = Task.DONE
+
+    task.full_clean()
+    task.save()
+
+    return task

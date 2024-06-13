@@ -24,3 +24,7 @@ def model_update(
         instance.save(update_fields=fields)
 
     return instance, has_updated
+
+
+def is_string_blank(s: str) -> bool:
+    return not (s and s.strip())
