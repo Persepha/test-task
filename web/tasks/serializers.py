@@ -26,5 +26,10 @@ class TaskInputSerializer(serializers.Serializer):
     description = serializers.CharField(required=False)
 
 
+class TaskUpdateInputSerializer(TaskInputSerializer):
+    report = serializers.CharField(required=False)
+    status = serializers.CharField(required=False)
+
+
 class FilterSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)

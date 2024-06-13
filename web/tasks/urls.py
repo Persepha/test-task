@@ -6,6 +6,7 @@ from tasks.views import (
     TaskDetailApi,
     TaskSetEmployee,
     TaskListForCustomerApi,
+    TaskUpdateApi,
 )
 
 urlpatterns = [
@@ -17,5 +18,6 @@ urlpatterns = [
         name="task-created_by_customer",
     ),
     path("<int:id>/", TaskDetailApi.as_view(), name="task-detail"),
+    path("<int:id>/update/", TaskUpdateApi.as_view(), name="task-update"),
     path("<int:id>/setemployee/", TaskSetEmployee.as_view(), name="task-setemployee"),
 ]

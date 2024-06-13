@@ -49,6 +49,24 @@ class IsUserHasPermissionToAssignTask(permissions.BasePermission):
         return False
 
 
+class IsUserHasPermissionToChangeTask(permissions.BasePermission):
+    """
+    Check If authorized user can change task
+    """
+
+    def has_object_permission(self, request: Request, view: APIView, obj: Task) -> bool:
+        if not request.user:
+            return False
+
+        if bool(
+            hasattr(request.user, "employee")
+            and (request.user.employee == obj.employee)
+        ):
+            return True
+
+        return False
+
+
 class IsCustomer(permissions.BasePermission):
     """
     Check If authorized user is customer

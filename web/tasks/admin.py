@@ -10,6 +10,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = (
         "customer",
         "id",
+        "description",
         "employee",
         "status",
         "closing_date",
@@ -51,3 +52,7 @@ class TaskAdmin(admin.ModelAdmin):
             task_create(**form.cleaned_data)
         except ValidationError as exc:
             self.message_user(request, str(exc), messages.ERROR)
+
+    def has_delete_permission(self, request, obj=None):
+        # Disable delete
+        return False

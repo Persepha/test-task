@@ -6,14 +6,21 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tasks.models import Task
-from tasks.permissions import IsUserHasAccessToViewTask, IsUserHasPermissionToAssignTask, IsCustomer
+from tasks.permissions import (
+    IsUserHasAccessToViewTask,
+    IsUserHasPermissionToAssignTask,
+    IsCustomer,
+    IsUserHasPermissionToChangeTask,
+    IsSuperUser,
+)
 from tasks.selectors import task_list, customer_task_list
 from tasks.serializers import (
     FilterSerializer,
     TaskOutputSerializer,
     TaskInputSerializer,
+    TaskUpdateInputSerializer,
 )
-from tasks.services import task_create, task_set_employee
+from tasks.services import task_create, task_set_employee, task_update
 from users.models import Customer
 
 
@@ -79,7 +86,6 @@ class TaskCreateApi(APIView):
 
 class TaskSetEmployee(APIView):
     permission_classes = (IsUserHasPermissionToAssignTask,)
-    # permission_classes = (IsSuperUser | (IsAdminUser & (IsTaskWithoutEmployee | IsOwner)),)
 
     def post(self, request, id):
         task = get_object_or_404(Task, id=id)
@@ -89,5 +95,22 @@ class TaskSetEmployee(APIView):
         user = self.request.user
 
         updated_task = task_set_employee(task=task, employee=user.employee)
+
+        return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(request=TaskUpdateInputSerializer)
+class TaskUpdateApi(APIView):
+    permission_classes = (IsUserHasPermissionToChangeTask | IsSuperUser,)
+
+    def post(self, request, id):
+        serializer = TaskUpdateInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        task = get_object_or_404(Task, id=id)
+
+        self.check_object_permissions(request, task)
+
+        updated_task, _ = task_update(task=task, data=serializer.validated_data)
 
         return Response(status=status.HTTP_200_OK)

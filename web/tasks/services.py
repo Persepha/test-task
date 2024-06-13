@@ -1,5 +1,10 @@
 from datetime import date
+from typing import Tuple
 
+from django.core.exceptions import ValidationError
+from django.db import transaction
+
+from common.services import model_update
 from tasks.models import Task
 from users.models import Customer, Employee
 
@@ -35,3 +40,19 @@ def task_set_employee(*, employee: Employee, task: Task) -> Task:
     task.save()
 
     return task
+
+
+@transaction.atomic
+def task_update(*, task: Task, data) -> Tuple[Task, bool]:
+    if task.status == Task.DONE:
+        raise ValidationError("Cannot change a task with status = Done")
+
+    non_side_effect_fields = ["description", "report", "status"]
+
+    task, has_updated = model_update(
+        instance=task,
+        fields=non_side_effect_fields,
+        data=data,
+    )
+
+    return task, has_updated
